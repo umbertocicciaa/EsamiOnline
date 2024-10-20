@@ -1,3 +1,4 @@
+using EsamiOnline.Greet;
 using Grpc.Core;
 
 namespace EsamiOnline.Services;

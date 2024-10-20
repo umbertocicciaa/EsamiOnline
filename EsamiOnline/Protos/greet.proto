@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option csharp_namespace = "EsamiOnline";
+option csharp_namespace = "EsamiOnline.Greet";
 
 package greet;
 

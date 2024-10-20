@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+option csharp_namespace = "EsamiOnline.Exam";
+
+package exam;
+
+service Exams {
+  rpc SaveExam (ExamRequest) returns (ExamReply);
+}
+
+message ExamRequest {
+  string name = 1;
+}
+
+message ExamReply {
+  string id = 1;
+  string message = 2;
+}
