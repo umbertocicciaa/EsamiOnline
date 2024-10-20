@@ -1,5 +1,4 @@
 using Grpc.Core;
-using EsamiOnline;
 
 namespace EsamiOnline.Services;
 

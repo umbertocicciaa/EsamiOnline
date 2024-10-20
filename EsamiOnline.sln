@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EsamiOnline", "EsamiOnline\EsamiOnline.csproj", "{FEFDA62C-5DD0-4E0B-9DAC-5513FF160772}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EsamiOnline.Tests", "EsamiOnline.Tests\EsamiOnline.Tests.csproj", "{146754BC-7B71-4388-9CF7-7D2E6D204174}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{FEFDA62C-5DD0-4E0B-9DAC-5513FF160772}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FEFDA62C-5DD0-4E0B-9DAC-5513FF160772}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FEFDA62C-5DD0-4E0B-9DAC-5513FF160772}.Release|Any CPU.Build.0 = Release|Any CPU
+		{146754BC-7B71-4388-9CF7-7D2E6D204174}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{146754BC-7B71-4388-9CF7-7D2E6D204174}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{146754BC-7B71-4388-9CF7-7D2E6D204174}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{146754BC-7B71-4388-9CF7-7D2E6D204174}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -13,6 +13,14 @@ COPY . .
 WORKDIR "/src/EsamiOnline"
 RUN dotnet build "EsamiOnline.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
+FROM build AS test
+WORKDIR /src
+COPY ["EsamiOnline.Tests/EsamiOnline.Tests.csproj", "EsamiOnline.Tests/"]
+RUN dotnet restore "EsamiOnline.Tests/EsamiOnline.Tests.csproj"
+COPY . .
+WORKDIR "/src/EsamiOnline.Tests"
+RUN dotnet test "EsamiOnline.Tests.csproj" --logger:trx
+
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
 RUN dotnet publish "EsamiOnline.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
