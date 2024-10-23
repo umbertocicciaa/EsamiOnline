@@ -7,6 +7,7 @@ A project for managing online exams using C# gRPC and Docker.
 ## Table of Contents
 
 - [Introduction](#introduction)
+- [Technologies](#technologies)
 - [Features](#features)
 - [Installation](#installation)
 - [Usage](#usage)
@@ -14,6 +15,15 @@ A project for managing online exams using C# gRPC and Docker.
 ## Introduction
 
 EsamiOnline is a distributed software system designed for managing online exams at a telematic university. The system facilitates online exams conducted at a designated lab, ensuring strict identification and security protocols. It includes both client and server components with a minimal GUI for ease of use.
+
+## Technologies
+- C#: The primary programming language used for development.
+- .NET: The framework used for building and running the application.
+- MongoDB: The database used for storing data.
+- gRPC: Used for communication between client and server.
+- xUnit: The testing framework used for unit tests.
+- AutoMapper: A library used for object-to-object mapping.
+- Docker: Used for containerization of the application.
 
 ## Features
 
