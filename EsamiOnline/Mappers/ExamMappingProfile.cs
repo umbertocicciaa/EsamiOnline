@@ -2,7 +2,7 @@ using AutoMapper;
 using EsamiOnline.Exam;
 using EsamiOnline.Models;
 
-namespace EsamiOnline.Configs;
+namespace EsamiOnline.Mappers;
 
 public class ExamMappingProfile : Profile
 {
