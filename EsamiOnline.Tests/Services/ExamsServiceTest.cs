@@ -18,31 +18,28 @@ public class ExamsServiceTest
 {
     
     private readonly Mock<IMapper> _mockMapper;
-    private readonly Mock<IOptions<ExamOnlineDatabaseSettings>> _mockOptions;
     private readonly Mock<IMongoCollection<ExamEntity>> _mockCollection;
-    private readonly Mock<IMongoDatabase> _mockDatabase;
-    private readonly Mock<IMongoClient> _mockClient;
     private readonly ExamsService _service;
     
     public ExamsServiceTest()
     {
         _mockMapper = new Mock<IMapper>();
-        _mockOptions = new Mock<IOptions<ExamOnlineDatabaseSettings>>();
+        var mockOptions = new Mock<IOptions<ExamOnlineDatabaseSettings>>();
         _mockCollection = new Mock<IMongoCollection<ExamEntity>>();
-        _mockDatabase = new Mock<IMongoDatabase>();
-        _mockClient = new Mock<IMongoClient>();
+        var mockDatabase = new Mock<IMongoDatabase>();
+        var mockClient = new Mock<IMongoClient>();
 
-        _mockOptions.Setup(opt => opt.Value).Returns(new ExamOnlineDatabaseSettings
+        mockOptions.Setup(opt => opt.Value).Returns(new ExamOnlineDatabaseSettings
         {
             ConnectionString = "mongodb://localhost:27017",
             DatabaseName = "ExamsDatabase",
             ExamCollectionName = "Exams"
         });
 
-        _mockClient.Setup(c => c.GetDatabase(It.IsAny<string>(), null)).Returns(_mockDatabase.Object);
-        _mockDatabase.Setup(db => db.GetCollection<ExamEntity>(It.IsAny<string>(), null)).Returns(_mockCollection.Object);
+        mockClient.Setup(c => c.GetDatabase(It.IsAny<string>(), null)).Returns(mockDatabase.Object);
+        mockDatabase.Setup(db => db.GetCollection<ExamEntity>(It.IsAny<string>(), null)).Returns(_mockCollection.Object);
 
-        _service = new ExamsService(_mockMapper.Object, _mockOptions.Object);
+        _service = new ExamsService(_mockMapper.Object, mockOptions.Object);
     }
 
     [Fact]
