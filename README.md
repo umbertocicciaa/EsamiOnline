@@ -24,7 +24,7 @@ EsamiOnline is a distributed software system designed for managing online exams 
 - xUnit: The testing framework used for unit tests.
 - AutoMapper: A library used for object-to-object mapping.
 - Docker: Used for containerization of the application.
-
+- Moq: Used for mock dependencies on unit testing.
 ## Features
 
 1. View upcoming exam dates.
