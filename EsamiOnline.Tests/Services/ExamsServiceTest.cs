@@ -4,6 +4,7 @@ using EsamiOnline.Configs;
 using EsamiOnline.Exam;
 using EsamiOnline.Models;
 using EsamiOnline.Services;
+using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Options;
@@ -55,9 +56,8 @@ public class ExamsServiceTest
 
         // Act
         var response = await _service.SaveExam(request, context.Object);
-
+        
         // Assert
-        Assert.Equal(examEntity.Id.ToString(), response.Id);
-        Assert.Equal(examEntity.Name, response.Message);
+        Assert.Equal(response, new Empty());
     }
 }

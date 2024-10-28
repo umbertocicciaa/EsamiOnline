@@ -1,18 +1,27 @@
 syntax = "proto3";
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
 
 option csharp_namespace = "EsamiOnline.Exam";
 
 package exam;
 
 service Exams {
-  rpc SaveExam (ExamRequest) returns (ExamReply);
+  rpc SaveExam (ExamRequest) returns (google.protobuf.Empty);
 }
 
 message ExamRequest {
-  string name = 1;
+  google.protobuf.StringValue name = 1;
+  google.protobuf.Timestamp exam_datetime = 2;
+  google.protobuf.DoubleValue duration = 3;
+  google.protobuf.Int32Value booked_students = 4;
 }
 
 message ExamReply {
   string id = 1;
-  string message = 2;
+  google.protobuf.StringValue name = 2;
+  google.protobuf.Timestamp exam_datetime = 3;
+  google.protobuf.DoubleValue duration = 4;
+  google.protobuf.Int32Value booked_students = 5;
 }

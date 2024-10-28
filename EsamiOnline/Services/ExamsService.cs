@@ -2,6 +2,7 @@ using AutoMapper;
 using EsamiOnline.Configs;
 using EsamiOnline.Exam;
 using EsamiOnline.Models;
+using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
@@ -26,14 +27,10 @@ public class ExamsService : Exams.ExamsBase
             examsDatabaseSettings.Value.ExamCollectionName);
     }
     
-    public override Task<ExamReply> SaveExam(ExamRequest request, ServerCallContext context)
+    public override async Task<Empty> SaveExam(ExamRequest request, ServerCallContext context)
     {
         var exam = _mapper.Map<ExamEntity>(request);
-        _examsCollection.InsertOneAsync(exam);
-        return Task.FromResult(new ExamReply
-        {
-            Id = exam.Id.ToString(),
-            Message = exam.Name
-        });
+        await _examsCollection.InsertOneAsync(exam);
+        return new Empty();
     }
 }
