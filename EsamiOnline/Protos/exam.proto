@@ -18,10 +18,3 @@ message ExamRequest {
   google.protobuf.Int32Value booked_students = 4;
 }
 
-message ExamReply {
-  string id = 1;
-  google.protobuf.StringValue name = 2;
-  google.protobuf.Timestamp exam_datetime = 3;
-  google.protobuf.DoubleValue duration = 4;
-  google.protobuf.Int32Value booked_students = 5;
-}
