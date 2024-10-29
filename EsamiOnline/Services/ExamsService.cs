@@ -1,36 +1,18 @@
 using AutoMapper;
-using EsamiOnline.Configs;
 using EsamiOnline.Exam;
 using EsamiOnline.Models;
+using EsamiOnline.Repositories;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
-using Microsoft.Extensions.Options;
-using MongoDB.Driver;
 
 namespace EsamiOnline.Services;
 
-public class ExamsService : Exams.ExamsBase
+public class ExamsService(IMapper mapper, IExamRepository repository) : Exams.ExamsBase
 {
-    private readonly IMapper _mapper;
-    private readonly IMongoCollection<ExamEntity> _examsCollection;
-    
-    public ExamsService(IMapper mapper, IOptions<ExamOnlineDatabaseSettings> examsDatabaseSettings)
-    {
-        _mapper = mapper;
-        var mongoClient = new MongoClient(
-            examsDatabaseSettings.Value.ConnectionString);
-
-        var mongoDatabase = mongoClient.GetDatabase(
-            examsDatabaseSettings.Value.DatabaseName);
-
-        _examsCollection = mongoDatabase.GetCollection<ExamEntity>(
-            examsDatabaseSettings.Value.ExamCollectionName);
-    }
-    
     public override async Task<Empty> SaveExam(ExamRequest request, ServerCallContext context)
     {
-        var exam = _mapper.Map<ExamEntity>(request);
-        await _examsCollection.InsertOneAsync(exam);
+        var exam = mapper.Map<ExamEntity>(request);
+        await repository.SaveExam(exam);
         return new Empty();
     }
 }

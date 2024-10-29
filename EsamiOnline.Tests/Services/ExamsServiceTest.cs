@@ -1,63 +1,54 @@
 using System.Threading.Tasks;
 using AutoMapper;
-using EsamiOnline.Configs;
 using EsamiOnline.Exam;
 using EsamiOnline.Models;
+using EsamiOnline.Repositories;
 using EsamiOnline.Services;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using JetBrains.Annotations;
-using Microsoft.Extensions.Options;
-using MongoDB.Driver;
 using Moq;
 using Xunit;
+
 
 namespace EsamiOnline.Tests.Services;
 
 [TestSubject(typeof(ExamsService))]
 public class ExamsServiceTest
 {
-    
-    private readonly Mock<IMapper> _mockMapper;
-    private readonly Mock<IMongoCollection<ExamEntity>> _mockCollection;
-    private readonly ExamsService _service;
-    
+    private readonly Mock<IMapper> _mapperMock;
+    private readonly Mock<IExamRepository> _repositoryMock;
+    private readonly ExamsService _examsService;
+
     public ExamsServiceTest()
     {
-        _mockMapper = new Mock<IMapper>();
-        var mockOptions = new Mock<IOptions<ExamOnlineDatabaseSettings>>();
-        _mockCollection = new Mock<IMongoCollection<ExamEntity>>();
-        var mockDatabase = new Mock<IMongoDatabase>();
-        var mockClient = new Mock<IMongoClient>();
-
-        mockOptions.Setup(opt => opt.Value).Returns(new ExamOnlineDatabaseSettings
-        {
-            ConnectionString = "mongodb://localhost:27017",
-            DatabaseName = "ExamsDatabase",
-            ExamCollectionName = "Exams"
-        });
-
-        mockClient.Setup(c => c.GetDatabase(It.IsAny<string>(), null)).Returns(mockDatabase.Object);
-        mockDatabase.Setup(db => db.GetCollection<ExamEntity>(It.IsAny<string>(), null)).Returns(_mockCollection.Object);
-
-        _service = new ExamsService(_mockMapper.Object, mockOptions.Object);
+        _mapperMock = new Mock<IMapper>();
+        _repositoryMock = new Mock<IExamRepository>();
+        _examsService = new ExamsService(_mapperMock.Object, _repositoryMock.Object);
     }
 
     [Fact]
-    public async Task SaveExamTest()
+    public async Task SaveExam_ShouldSaveExamAndReturnEmpty()
     {
         // Arrange
-        var request = new ExamRequest { Name = "Math Exam" };
-        var context = new Mock<ServerCallContext>();
-        var examEntity = new ExamEntity { Id = new MongoDB.Bson.ObjectId(), Name = "Math Exam" };
+        var examRequest = new ExamRequest
+        {
+            Name = "Math",
+        };
+        var examEntity = new ExamEntity
+        {
+            Name = "Math",
+        };
 
-        _mockMapper.Setup(m => m.Map<ExamEntity>(It.IsAny<ExamRequest>())).Returns(examEntity);
-        _mockCollection.Setup(c => c.InsertOneAsync(It.IsAny<ExamEntity>(), null, default)).Returns(Task.CompletedTask);
+        _mapperMock.Setup(m => m.Map<ExamEntity>(It.IsAny<ExamRequest>())).Returns(examEntity);
+        _repositoryMock.Setup(r => r.SaveExam(It.IsAny<ExamEntity>())).Returns(Task.CompletedTask);
 
         // Act
-        var response = await _service.SaveExam(request, context.Object);
-        
+        var result = await _examsService.SaveExam(examRequest, It.IsAny<ServerCallContext>());
+
         // Assert
-        Assert.Equal(response, new Empty());
+        _mapperMock.Verify(m => m.Map<ExamEntity>(examRequest), Times.Once);
+        _repositoryMock.Verify(r => r.SaveExam(examEntity), Times.Once);
+        Assert.IsType<Empty>(result);
     }
 }
