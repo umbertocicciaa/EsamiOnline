@@ -14,8 +14,6 @@ builder.Services.AddAutoMapper(typeof(ExamMappingProfile).Assembly);
 var app = builder.Build();
 
 app.MapGrpcService<ExamsService>();
-app.MapGrpcService<GreeterService>();
-
 
 app.MapGet("/",
     () =>
