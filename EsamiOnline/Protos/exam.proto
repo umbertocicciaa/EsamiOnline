@@ -13,7 +13,7 @@ service Exams {
 
 message ExamRequest {
   google.protobuf.StringValue name = 1;
-  google.protobuf.Timestamp exam_datetime = 2;
+  google.protobuf.Int64Value exam_datetime = 2;
   google.protobuf.DoubleValue duration = 3;
   google.protobuf.Int32Value booked_students = 4;
 }

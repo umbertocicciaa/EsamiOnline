@@ -3,7 +3,6 @@ using AutoMapper;
 using EsamiOnline.Exam;
 using EsamiOnline.Mappers;
 using EsamiOnline.Models;
-using Google.Protobuf.WellKnownTypes;
 using JetBrains.Annotations;
 using Xunit;
 
@@ -24,12 +23,12 @@ public class ExamMappingProfileTest
     public void ExamMappingProfile_MapsExamRequestToExamEntity()
     {
         var mapper = _config.CreateMapper();
-        var now = DateTime.UtcNow;
+        var now = new DateTime();
         
         var request = new ExamRequest
         {
             Name =  "Physics Exam",
-            ExamDatetime = now.ToTimestamp(),
+            ExamDatetime = now.Ticks,
             Duration = 120 ,
             BookedStudents = 30 ,
         };
@@ -37,7 +36,7 @@ public class ExamMappingProfileTest
         var entity = mapper.Map<ExamEntity>(request);
 
         Assert.Equal(request.Name, entity.Name);
-        Assert.Equal(request.ExamDatetime.ToDateTime(), entity.ExamDateTime);
+        Assert.Equal(request.ExamDatetime, entity.ExamDateTime.GetValueOrDefault().Ticks);
         Assert.Equal((decimal)request.Duration.Value, entity.MaxDuration);
         Assert.Equal(request.BookedStudents.Value, entity.BookedStudents);
         Assert.Equal(default, entity.Id); 
