@@ -25,7 +25,7 @@ public class ExamMappingProfileTest
         var mapper = _config.CreateMapper();
         var now = new DateTime();
         
-        var request = new ExamRequest
+        var request = new ExamDto
         {
             Name =  "Physics Exam",
             ExamDatetime = now.Ticks,

@@ -9,7 +9,7 @@ public class ExamMappingProfile : Profile
     public ExamMappingProfile()
     {
         // Map ExamRequest to ExamEntity
-        CreateMap<ExamRequest, ExamEntity>()
+        CreateMap<ExamDto, ExamEntity>()
             .ForMember(dest => dest.Id, opt => opt.Ignore())
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
             .ForMember(dest => dest.ExamDateTime, opt => opt.MapFrom(src => new DateTime(src.ExamDatetime.GetValueOrDefault())))

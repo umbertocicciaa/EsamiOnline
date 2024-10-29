@@ -25,4 +25,10 @@ public class ExamRepository : IExamRepository
     {
         await _examsCollection.InsertOneAsync(exam);
     }
+
+    public IEnumerable<ExamEntity> GetExamsByDate(DateTime start, DateTime end)
+    {
+        var filter = Builders<ExamEntity>.Filter.Gte(e => e.ExamDateTime, start) & Builders<ExamEntity>.Filter.Lte(e => e.ExamDateTime, end);
+        return _examsCollection.Find(filter).ToCursor().ToList();
+    }
 }
