@@ -10,6 +10,7 @@ using EsamiOnline.Services;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using JetBrains.Annotations;
+using MongoDB.Bson;
 using Moq;
 using Xunit;
 
@@ -60,10 +61,10 @@ public class ExamsServiceTest
     {
         // Arrange
         var responseStreamMock = new Mock<IServerStreamWriter<ExamDto>>();
-        var examEntities = new List<ExamEntity> { new() { Name = "Ing", ExamDateTime = new DateTime()}, new() {Name = "Math", ExamDateTime = new DateTime()} };
-        var examDtos = new List<ExamDto> { new() { Name = "Ing", ExamDatetime = new DateTime().Ticks} , new() {Name = "Math", ExamDatetime = new DateTime().Ticks} };
-        var request = new ExamDateRequest { StartDate = new DateTime().Ticks, EndDate = new DateTime().Ticks };
-        _repositoryMock.Setup(r => r.GetExamsByDate(It.IsAny<DateTime>(), It.IsAny<DateTime>())).Returns(examEntities);
+        var examEntities = new List<ExamEntity> { new() { Name = "Ing", ExamDateTime = new BsonDateTime(new DateTime())}, new() {Name = "Math", ExamDateTime = new BsonDateTime(new DateTime())} };
+        var examDtos = new List<ExamDto> { new() { Name = "Ing", ExamDatetime = new Timestamp()} , new() {Name = "Math", ExamDatetime = new Timestamp()} };
+        var request = new ExamDateRequest { StartDate = new Timestamp(), EndDate = new Timestamp()};
+        _repositoryMock.Setup(r => r.GetExamsByDate(It.IsAny<BsonDateTime>(), It.IsAny<BsonDateTime>())).Returns(examEntities);
         _mapperMock.Setup(m => m.Map<ExamDto>(It.IsAny<ExamEntity>())).Returns(examDtos.First());
 
         // Act
@@ -78,8 +79,8 @@ public class ExamsServiceTest
     {
         // Arrange
         var responseStreamMock = new Mock<IServerStreamWriter<ExamDto>>();
-        var request = new ExamDateRequest { StartDate = new DateTime().Ticks, EndDate = new DateTime().Ticks};
-        _repositoryMock.Setup(r => r.GetExamsByDate(It.IsAny<DateTime>(), It.IsAny<DateTime>())).Returns(new List<ExamEntity>());
+        var request = new ExamDateRequest { StartDate = new Timestamp(), EndDate = new Timestamp()};
+        _repositoryMock.Setup(r => r.GetExamsByDate(It.IsAny<BsonDateTime>(), It.IsAny<BsonDateTime>())).Returns(new List<ExamEntity>());
         var service = new ExamsService(_mapperMock.Object, _repositoryMock.Object);
 
         // Act

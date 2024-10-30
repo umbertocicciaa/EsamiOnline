@@ -4,6 +4,7 @@ using EsamiOnline.Models;
 using EsamiOnline.Repositories;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
+using MongoDB.Bson;
 
 namespace EsamiOnline.Services;
 
@@ -16,14 +17,19 @@ public class ExamsService(IMapper mapper, IExamRepository repository) : Exams.Ex
         return new Empty();
     }
 
-    public override Task GetExamByDate(ExamDateRequest request, IServerStreamWriter<ExamDto> responseStream, ServerCallContext context)
+    public override async Task GetExamByDate(ExamDateRequest request, IServerStreamWriter<ExamDto> responseStream, ServerCallContext context)
     {
-        var exams = repository.GetExamsByDate(new DateTime(request.StartDate.GetValueOrDefault()), new DateTime(request.EndDate.GetValueOrDefault()));
+        var exams = repository.GetExamsByDate
+        (
+            new BsonDateTime(request.StartDate.ToDateTime()), 
+            new BsonDateTime(request.EndDate.ToDateTime())
+        );
+            
         foreach (var exam in exams)
         {
             var examDto = mapper.Map<ExamDto>(exam);
-            responseStream.WriteAsync(examDto);
+            await responseStream.WriteAsync(examDto);
+            await Task.Delay(TimeSpan.FromSeconds(1));
         }
-        return Task.CompletedTask;
     }
 }

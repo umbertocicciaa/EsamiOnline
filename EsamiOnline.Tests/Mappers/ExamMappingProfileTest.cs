@@ -3,7 +3,9 @@ using AutoMapper;
 using EsamiOnline.Exam;
 using EsamiOnline.Mappers;
 using EsamiOnline.Models;
+using Google.Protobuf.WellKnownTypes;
 using JetBrains.Annotations;
+using MongoDB.Bson;
 using Xunit;
 
 namespace EsamiOnline.Tests.Mappers;
@@ -11,34 +13,53 @@ namespace EsamiOnline.Tests.Mappers;
 [TestSubject(typeof(ExamMappingProfile))]
 public class ExamMappingProfileTest
 {
+    private readonly IMapper _mapper;
     
-    private readonly MapperConfiguration _config;
-
     public ExamMappingProfileTest()
     {
-        _config = new MapperConfiguration(cfg => cfg.AddProfile<ExamMappingProfile>());
+        var config = new MapperConfiguration(cfg => cfg.AddProfile<ExamMappingProfile>());
+        _mapper = config.CreateMapper();
     }
 
     [Fact]
-    public void ExamMappingProfile_MapsExamRequestToExamEntity()
+    public void Map_ExamDtoToExamEntity_MapsCorrectly()
     {
-        var mapper = _config.CreateMapper();
-        var now = new DateTime();
-        
-        var request = new ExamDto
-        {
-            Name =  "Physics Exam",
-            ExamDatetime = now.Ticks,
-            Duration = 120 ,
-            BookedStudents = 30 ,
-        };
-        
-        var entity = mapper.Map<ExamEntity>(request);
 
-        Assert.Equal(request.Name, entity.Name);
-        Assert.Equal(request.ExamDatetime, entity.ExamDateTime.GetValueOrDefault().Ticks);
-        Assert.Equal((decimal)request.Duration.Value, entity.MaxDuration);
-        Assert.Equal(request.BookedStudents.Value, entity.BookedStudents);
-        Assert.Equal(default, entity.Id); 
+        var examDto = new ExamDto
+        {
+            Name = "Math Exam",
+            ExamDatetime = Timestamp.FromDateTime(DateTime.UtcNow),
+            Duration = 120,
+            BookedStudents = 30
+        };
+
+        var examEntity = _mapper.Map<ExamEntity>(examDto);
+        Assert.Equal(examDto.Name, examEntity.Name);
+        Assert.Equal(new BsonDateTime(examDto.ExamDatetime.ToDateTime()), examEntity.ExamDateTime);
+        Assert.Equal((decimal?)examDto.Duration, examEntity.MaxDuration);
+        Assert.Equal(examDto.BookedStudents, examEntity.BookedStudents);
     }
+
+    [Fact]
+    public void Map_ExamEntityToExamDto_MapsCorrectly()
+    {
+        var examEntity = new ExamEntity
+        {
+            Id = ObjectId.GenerateNewId(),
+            Name = "Math Exam",
+            ExamDateTime = new BsonDateTime(DateTime.UtcNow),
+            MaxDuration = 120,
+            BookedStudents = 30
+        };
+
+        var examDto = _mapper.Map<ExamDto>(examEntity);
+
+        Assert.Equal(examEntity.Name, examDto.Name);
+        Assert.Equal(Timestamp.FromDateTime(examEntity.ExamDateTime.ToUniversalTime()), examDto.ExamDatetime);
+        Assert.Equal((int)examEntity.MaxDuration, examDto.Duration);
+        Assert.Equal(examEntity.BookedStudents, examDto.BookedStudents);
+    }
+    
+
+  
 }
