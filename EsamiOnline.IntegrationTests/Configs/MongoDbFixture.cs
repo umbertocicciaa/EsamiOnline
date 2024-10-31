@@ -10,12 +10,11 @@ public class MongoDbFixture : IDisposable
     public MongoDbFixture()
     {
         var config = new ConfigurationBuilder()
-            .SetBasePath(AppContext.BaseDirectory)
-            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+            .AddJsonFile("appsettings.json")
             .Build();
 
-        var connectionString = config.GetSection("OnlineExamDatabase:ConnectionString").Value ?? "";
-        
+        var connectionString = config.GetSection("ConnectionStrings:db").Value ?? "";
+       
         DbContextSettings = new ExamOnlineDatabaseSettings
         {
             ConnectionString = connectionString,
