@@ -85,4 +85,25 @@ public class ExamsServiceTest
         // Assert
         responseStreamMock.Verify(s => s.WriteAsync(It.IsAny<ExamDto>()), Times.Never);
     }
+
+    [Fact]
+    public async Task User_ShouldBookToExam()
+    {
+        // Arrange
+        var student = new BookedStudent("ccc", "ddd");
+        var exam = "Math";
+        var bookRequest = new BookExamRequest
+        {
+            GovId = student.GovId,
+            StudentId = student.StudentId,
+            ExamName = exam
+        };
+        _repositoryMock.Setup(r => r.BookToExam(It.IsAny<string>(),It.IsAny<string>(), It.IsAny<string>())).Returns(Task.FromResult(new BoolValue { Value = true }));
+        var service = new ExamsService(_mapperMock.Object, _repositoryMock.Object);
+        
+        // Act
+        var response = await service.BookExam(bookRequest, It.IsAny<ServerCallContext>());
+        
+        Assert.True(response.Value);
+    }
 }

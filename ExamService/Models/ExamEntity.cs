@@ -12,4 +12,5 @@ public class ExamEntity
     public BsonDateTime? ExamDateTime { get; set; }
     public decimal? MaxDuration { get; set; }
     public int? BookedStudents { get; set; }
+    public SortedSet<BookedStudent> InfoBookedStudents { get; set; } = [];
 }

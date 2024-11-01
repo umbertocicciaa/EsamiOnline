@@ -32,4 +32,9 @@ public class ExamsService(IMapper mapper, IExamRepository repository) : Exams.Ex
             await Task.Delay(TimeSpan.FromSeconds(1));
         }
     }
+
+    public override async Task<BoolValue> BookExam(BookExamRequest request, ServerCallContext context)
+    {
+        return await repository.BookToExam(request.ExamName, request.StudentId, request.GovId);
+    }
 }

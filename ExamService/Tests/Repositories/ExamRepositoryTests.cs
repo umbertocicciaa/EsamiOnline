@@ -52,4 +52,57 @@ public class ExamRepositoryTests : IClassFixture<MongoDbFixture>
         Assert.NotEmpty(exams);
     }
     
+    [Fact]
+    public async Task Should_Book_To_Exam()
+    {
+        var exam = new ExamEntity
+        {
+            Name = "Exam 1",
+            ExamDateTime = new BsonDateTime(DateTime.Now),
+            MaxDuration = 120,
+            BookedStudents = 0
+        };
+        
+        await _examRepository.SaveExam(exam);
+        var result = await _examRepository.BookToExam("Exam 1", "1", "1");
+        
+        Assert.True(result.Value);
+    }
+    
+    [Fact]
+    public async Task Should_Increment_BookedStudent()
+    {
+        var exam = new ExamEntity
+        {
+            Name = "Exam 1",
+            ExamDateTime = new BsonDateTime(DateTime.Now),
+            MaxDuration = 120,
+            BookedStudents = 0
+        };
+        
+        await _examRepository.SaveExam(exam);
+        await _examRepository.BookToExam("Exam 1", "1", "1");
+        
+        var updatedExam = await _examRepository.GetExamByName(exam.Name);
+        Assert.Equal(1, updatedExam.BookedStudents);
+    }
+    
+    [Fact]
+    public async Task Should_Be_Inserted_ExamCollection()
+    {
+        var exam = new ExamEntity
+        {
+            Name = "Exam 1",
+            ExamDateTime = new BsonDateTime(DateTime.Now),
+            MaxDuration = 120,
+            BookedStudents = 0
+        };
+        
+        await _examRepository.SaveExam(exam);
+        await _examRepository.BookToExam("Exam 1", "1", "1");
+        
+        var updatedExam = await _examRepository.GetExamByName(exam.Name);
+        Assert.Contains(new BookedStudent("1", "1"), updatedExam.InfoBookedStudents);
+    }
+    
 }
