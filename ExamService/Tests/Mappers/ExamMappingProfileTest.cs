@@ -1,14 +1,13 @@
-using System;
 using AutoMapper;
 using EsamiOnline.Exam;
-using EsamiOnline.Mappers;
-using EsamiOnline.Models;
+using ExamService.Mappers;
+using ExamService.Models;
 using Google.Protobuf.WellKnownTypes;
 using JetBrains.Annotations;
 using MongoDB.Bson;
 using Xunit;
 
-namespace EsamiOnline.Tests.Mappers;
+namespace ExamService.Tests.Mappers;
 
 [TestSubject(typeof(ExamMappingProfile))]
 public class ExamMappingProfileTest

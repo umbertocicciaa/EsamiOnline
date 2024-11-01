@@ -1,12 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
 using EsamiOnline.Exam;
-using EsamiOnline.Models;
-using EsamiOnline.Repositories;
-using EsamiOnline.Services;
+using ExamService.Models;
+using ExamService.Repositories;
+using ExamService.Services;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using JetBrains.Annotations;
@@ -14,7 +10,7 @@ using MongoDB.Bson;
 using Moq;
 using Xunit;
 
-namespace EsamiOnline.Tests.Services;
+namespace ExamService.Tests.Services;
 
 [TestSubject(typeof(ExamsService))]
 public class ExamsServiceTest

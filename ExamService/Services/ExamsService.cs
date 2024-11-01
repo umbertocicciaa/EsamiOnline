@@ -1,12 +1,12 @@
 using AutoMapper;
 using EsamiOnline.Exam;
-using EsamiOnline.Models;
-using EsamiOnline.Repositories;
+using ExamService.Models;
+using ExamService.Repositories;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using MongoDB.Bson;
 
-namespace EsamiOnline.Services;
+namespace ExamService.Services;
 
 public class ExamsService(IMapper mapper, IExamRepository repository) : Exams.ExamsBase
 {

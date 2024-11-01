@@ -1,7 +1,7 @@
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace EsamiOnline.Models;
+namespace ExamService.Models;
 
 public class ExamEntity
 {

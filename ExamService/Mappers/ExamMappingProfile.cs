@@ -1,10 +1,10 @@
 using AutoMapper;
 using EsamiOnline.Exam;
-using EsamiOnline.Models;
+using ExamService.Models;
 using Google.Protobuf.WellKnownTypes;
 using MongoDB.Bson;
 
-namespace EsamiOnline.Mappers;
+namespace ExamService.Mappers;
 
 public class ExamMappingProfile : Profile
 {

@@ -1,7 +1,7 @@
-using EsamiOnline.Configs;
-using EsamiOnline.Mappers;
-using EsamiOnline.Repositories;
-using EsamiOnline.Services;
+using ExamService.Configs;
+using ExamService.Mappers;
+using ExamService.Repositories;
+using ExamService.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

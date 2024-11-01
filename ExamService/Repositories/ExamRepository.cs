@@ -1,10 +1,10 @@
-using EsamiOnline.Configs;
-using EsamiOnline.Models;
+using ExamService.Configs;
+using ExamService.Models;
 using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
-namespace EsamiOnline.Repositories;
+namespace ExamService.Repositories;
 
 public class ExamRepository : IExamRepository
 {

@@ -1,7 +1,7 @@
-using EsamiOnline.Configs;
-using Microsoft.Extensions.Configuration;
+using ExamService.Configs;
 using MongoDB.Driver;
-namespace EsamiOnline.IntegrationTests.Configs;
+
+namespace ExamService.Tests.Configs;
 
 public class MongoDbFixture : IDisposable
 {
@@ -13,7 +13,7 @@ public class MongoDbFixture : IDisposable
             .AddJsonFile("appsettings.json")
             .Build();
 
-        var connectionString = config.GetSection("ConnectionStrings:db").Value ?? "";
+        var connectionString = config.GetSection("OnlineExamDatabaseTest:ConnectionString").Value ?? "";
        
         DbContextSettings = new ExamOnlineDatabaseSettings
         {

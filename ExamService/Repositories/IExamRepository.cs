@@ -1,7 +1,7 @@
-using EsamiOnline.Models;
+using ExamService.Models;
 using MongoDB.Bson;
 
-namespace EsamiOnline.Repositories;
+namespace ExamService.Repositories;
 
 public interface IExamRepository
 {

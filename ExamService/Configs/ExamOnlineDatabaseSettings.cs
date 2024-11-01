@@ -1,4 +1,4 @@
-namespace EsamiOnline.Configs;
+namespace ExamService.Configs;
 
 public class ExamOnlineDatabaseSettings
 {
