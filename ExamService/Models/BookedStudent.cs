@@ -10,15 +10,15 @@ public class BookedStudent(string studentId, string govId) : IComparable<BookedS
         if (other == null) return 1;
         return string.Compare(StudentId, other.StudentId, StringComparison.Ordinal);
     }
-    
+
     public override bool Equals(object? obj)
     {
         if (obj == null) return false;
         if (obj.GetType() != GetType()) return false;
-        var other = (BookedStudent) obj;
+        var other = (BookedStudent)obj;
         return StudentId == other.StudentId && GovId == other.GovId;
     }
-    
+
     public override int GetHashCode()
     {
         return HashCode.Combine(StudentId, GovId);

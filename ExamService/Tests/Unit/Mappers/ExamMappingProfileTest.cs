@@ -7,13 +7,13 @@ using JetBrains.Annotations;
 using MongoDB.Bson;
 using Xunit;
 
-namespace ExamService.Tests.Mappers;
+namespace ExamService.Tests.Unit.Mappers;
 
 [TestSubject(typeof(ExamMappingProfile))]
 public class ExamMappingProfileTest
 {
     private readonly IMapper _mapper;
-    
+
     public ExamMappingProfileTest()
     {
         var config = new MapperConfiguration(cfg => cfg.AddProfile<ExamMappingProfile>());
@@ -23,7 +23,6 @@ public class ExamMappingProfileTest
     [Fact]
     public void Map_ExamDtoToExamEntity_MapsCorrectly()
     {
-
         var examDto = new ExamDto
         {
             Name = "Math Exam",
@@ -58,7 +57,4 @@ public class ExamMappingProfileTest
         Assert.Equal((int)examEntity.MaxDuration, examDto.Duration);
         Assert.Equal(examEntity.BookedStudents, examDto.BookedStudents);
     }
-    
-
-  
 }

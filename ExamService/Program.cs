@@ -2,14 +2,24 @@ using ExamService.Configs;
 using ExamService.Mappers;
 using ExamService.Repositories;
 using ExamService.Services;
+using MongoDB.Driver;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddGrpc();
-builder.Services.AddScoped<IExamRepository,ExamRepository>();
 builder.Services.Configure<ExamOnlineDatabaseSettings>(builder.Configuration.GetSection("OnlineExamDatabase"));
 builder.Services.AddAutoMapper(typeof(ExamMappingProfile).Assembly);
+
+var connectionString = builder.Configuration.GetSection("OnlineExamDatabase:ConnectionString").Value;
+var databaseName = builder.Configuration.GetSection("OnlineExamDatabase:DatabaseName").Value;
+
+var client = new MongoClient(connectionString);
+var database = client.GetDatabase(databaseName);
+
+// Register the MongoDB context or direct collections
+builder.Services.AddSingleton(database);
+builder.Services.AddScoped(typeof(IMongoRepository<>), typeof(MongoRepository<>));
 
 var app = builder.Build();
 

@@ -1,18 +1,37 @@
+using JetBrains.Annotations;
 using MongoDB.Driver;
+using Testcontainers.MongoDb;
 using Xunit;
 
-namespace ExamService.Tests.Configs;
+namespace ExamService.Tests.Integration.Configs;
 
-public class ExamOnlineDatabaseTest(MongoDbFixture fixture) : IClassFixture<MongoDbFixture>
+public class ExamOnlineDatabaseTest(MongoDbContainer container) : IAsyncLifetime
 {
     [Fact]
-    public void TestDatabaseConnection()
+    public void ConnectionStateReturnsOpen()
     {
-        // Arrange
-        var client = new MongoClient(fixture.DbContextSettings.ConnectionString);
-        // Act
-        var databases = client.ListDatabaseNames().ToList();
-        // Assert
-        Assert.NotNull(databases);
+        // Given
+        var client = new MongoClient(container.GetConnectionString());
+
+        // When
+        using var databases = client.ListDatabases();
+
+        // Then
+        Assert.Contains(databases.ToEnumerable(),
+            database => database.TryGetValue("name", out var name) && "admin".Equals(name.AsString));
+    }
+
+    [UsedImplicitly]
+    public sealed class MongoDbNoAuthConfiguration()
+        : ExamOnlineDatabaseTest(new MongoDbBuilder().WithUsername(string.Empty).WithPassword(string.Empty).Build());
+
+    public Task InitializeAsync()
+    {
+        return container.StartAsync();
+    }
+
+    public Task DisposeAsync()
+    {
+        return container.DisposeAsync().AsTask();
     }
 }
