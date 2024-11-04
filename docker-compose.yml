@@ -6,8 +6,6 @@ services:
         MONGO_INITDB_ROOT_PASSWORD: admin
     ports:
         - "27017:27017"
-    networks:
-      - testing-network
   
   exam_service:
     build:
