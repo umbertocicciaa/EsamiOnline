@@ -1,8 +1,20 @@
-services:  
+services:   
+  mongodb_test_service:
+    image: mongo:4.4.6
+    environment:
+        MONGO_INITDB_ROOT_USERNAME: admin
+        MONGO_INITDB_ROOT_PASSWORD: admin
+    ports:
+        - "27017:27017"
+    networks:
+      - testing-network
+  
   exam_service:
     build:
       context: .
       dockerfile: ExamService/Dockerfile
+    depends_on:
+      - mongodb_test_service
     container_name: 'exam-service'
     ports:
       - "8080:8080"

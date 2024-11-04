@@ -18,6 +18,9 @@ jobs:
       with:
         dotnet-version: 8.0.x
         
+    - name: Docker compose setup
+      run: docker compose -f docker-compose.yml up -d --wait
+    
     - name: Restore dependencies
       run: dotnet restore
       
