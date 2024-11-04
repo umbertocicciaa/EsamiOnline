@@ -10,11 +10,10 @@ namespace ExamService.Tests.Integration.Repositories;
 public class ExamRepositoryTests : IDisposable
 {
     private readonly ExamRepository _repository;
-    private readonly MongoDbContainer _container;
+    private readonly MongoDbContainer _container = new MongoDbBuilder().Build();
 
     public ExamRepositoryTests()
     {
-        _container = new MongoDbBuilder().Build();
         _container.StartAsync().Wait();
         _repository =
             new ExamRepository(
