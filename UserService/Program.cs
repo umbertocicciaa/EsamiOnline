@@ -11,8 +11,8 @@ builder.Services.AddScoped(typeof(IMongoRepository<>), typeof(MongoRepository<>)
 builder.Services.Configure<UserDatabasesSetting>(builder.Configuration.GetSection("UserDatabase"));
 builder.Services.AddAutoMapper(typeof(UserMapperProfile).Assembly);
 
-var connectionString = builder.Configuration.GetSection("OnlineExamDatabase:ConnectionString").Value;
-var databaseName = builder.Configuration.GetSection("OnlineExamDatabase:DatabaseName").Value;
+var connectionString = builder.Configuration.GetSection("UserDatabase:ConnectionString").Value;
+var databaseName = builder.Configuration.GetSection("UserDatabase:DatabaseName").Value;
 
 var client = new MongoClient(connectionString);
 var database = client.GetDatabase(databaseName);
