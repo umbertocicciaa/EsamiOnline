@@ -22,6 +22,7 @@ EsamiOnline is a distributed software system designed for managing online exams 
 - MongoDB: The database used for storing data.
 - gRPC: Used for communication between client and server.
 - xUnit: The testing framework used for unit tests.
+- Testcontainer: Open source library for providing throwaway, lightweight instances of databases, message brokers, web browsers, or just about anything that can run in a Docker container.
 - AutoMapper: A library used for object-to-object mapping.
 - Docker: Used for containerization of the application.
 - Moq: Used for mock dependencies on unit testing.
