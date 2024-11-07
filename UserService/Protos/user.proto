@@ -7,8 +7,8 @@ package user;
 
 service User{
   rpc SaveUser (UserDto) returns (google.protobuf.Empty);
-  /*
   rpc GetUsers(google.protobuf.Empty) returns (stream UserDto);
+  /*
   rpc GetUserByGovId (UserGovIdRequest) returns (stream UserDto);
   rpc GetUserByStudentId (UserStudentIdRequest) returns (stream UserDto); 
   */

@@ -36,6 +36,24 @@ public class UserRepositoryTest : IDisposable
         };
         
         await _repository.AddAsync(user);
+    }
+    
+    [Fact]
+    public async void Should_Get_All_Users()
+    {
+        var user = new UserEntity
+        {
+            Name = "John Doe",
+        };
+        var user2 = new UserEntity
+        {
+            Name = "psdsa Doe",
+        };
+        await _repository.AddAsync(user);
+        await _repository.AddAsync(user2);
         
+        var users = await _repository.GetAllAsync();
+        
+        Assert.Equal(2, users.Count);
     }
 }

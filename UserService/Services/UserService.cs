@@ -16,4 +16,11 @@ public class UserService(IMapper mapper, IMongoRepository<UserEntity> repository
         repository.AddAsync(user);
         return Task.FromResult(new Empty());
     }
+    
+    public override async Task GetUsers(Empty request, IServerStreamWriter<UserDto> responseStream, ServerCallContext context)
+    {
+        var users = await repository.GetAllAsync();
+        foreach (var userDto in users.Select(mapper.Map<UserDto>))
+            await responseStream.WriteAsync(userDto);
+    }
 }
