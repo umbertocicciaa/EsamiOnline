@@ -7,8 +7,7 @@ public class BookedStudent(string studentId, string govId) : IComparable<BookedS
 
     public int CompareTo(BookedStudent? other)
     {
-        if (other == null) return 1;
-        return string.Compare(StudentId, other.StudentId, StringComparison.Ordinal);
+        return other == null ? 1 : string.Compare(StudentId, other.StudentId, StringComparison.Ordinal);
     }
 
     public override bool Equals(object? obj)
