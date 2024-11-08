@@ -32,4 +32,15 @@ public class MongoRepository<T>(IMongoDatabase database, string collectionName) 
     {
         await Collection.DeleteOneAsync(Builders<T>.Filter.Eq("_id", id));
     }
+
+    public async Task<List<T>> GetAllWithFilterAsync(FilterDefinition<T> filter)
+    {
+        return await Collection.Find(filter).ToListAsync();
+    }
+
+    public async Task<T> GetOneWithFilterAsync(FilterDefinition<T> filter)
+    {
+        return await Collection.Find(filter).FirstOrDefaultAsync();
+    }
+    
 }

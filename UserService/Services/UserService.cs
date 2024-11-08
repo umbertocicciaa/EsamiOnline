@@ -1,6 +1,7 @@
 using AutoMapper;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
+using MongoDB.Driver;
 using User;
 using UserService.Models;
 using UserService.Repositories;
@@ -22,5 +23,21 @@ public class UserService(IMapper mapper, IMongoRepository<UserEntity> repository
         var users = await repository.GetAllAsync();
         foreach (var userDto in users.Select(mapper.Map<UserDto>))
             await responseStream.WriteAsync(userDto);
+    }
+    
+    public override async Task GetUsersByGovId(UserGovIdRequest request,IServerStreamWriter<UserDto> responseStream, ServerCallContext context)
+    {
+        var filter = Builders<UserEntity>.Filter.Eq("GovId", request.GovId);
+        var users = await repository.GetAllWithFilterAsync(filter);
+        foreach(var user in users.Select(mapper.Map<UserDto>))
+            await responseStream.WriteAsync(user);
+    }
+
+    public override async Task GetUsersByStudentId(UserStudentIdRequest request, IServerStreamWriter<UserDto> responseStream, ServerCallContext context)
+    {
+        var filter = Builders<UserEntity>.Filter.Eq("StudentId", request.StudentId);
+        var users = await repository.GetAllWithFilterAsync(filter);
+        foreach (var user in users.Select(mapper.Map<UserDto>))
+            await responseStream.WriteAsync(user);
     }
 }

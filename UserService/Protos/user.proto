@@ -8,10 +8,8 @@ package user;
 service User{
   rpc SaveUser (UserDto) returns (google.protobuf.Empty);
   rpc GetUsers(google.protobuf.Empty) returns (stream UserDto);
-  /*
-  rpc GetUserByGovId (UserGovIdRequest) returns (stream UserDto);
-  rpc GetUserByStudentId (UserStudentIdRequest) returns (stream UserDto); 
-  */
+  rpc GetUsersByGovId (UserGovIdRequest) returns (stream UserDto);
+  rpc GetUsersByStudentId (UserStudentIdRequest) returns (stream UserDto);
 }
 
 message UserDto {
@@ -23,4 +21,12 @@ message UserDto {
   google.protobuf.StringValue password = 6;
   google.protobuf.StringValue role = 7;
   google.protobuf.StringValue phone = 8;
+}
+
+message UserGovIdRequest {
+  google.protobuf.StringValue gov_id = 1;
+}
+
+message UserStudentIdRequest {
+  google.protobuf.StringValue student_id = 1;
 }
