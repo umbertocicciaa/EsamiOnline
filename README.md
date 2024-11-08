@@ -1,4 +1,4 @@
-# (WORK IN PROGRESS) EsamiOnline
+# EsamiOnline
 
 [![.NET Build Status](https://github.com/umbertocicciaa/EsamiOnline/actions/workflows/ci.yml/badge.svg)](https://github.com/umbertocicciaa/EsamiOnline/actions/workflows/ci.yml)
 
